@@ -46,34 +46,47 @@
 
 	"use strict";
 
-	var cat = __webpack_require__(1);
+	/**
+	 * Created by Xinlai_He on 12/05/2016.
+	 */
 
-	document.write(cat);
-	__webpack_require__(2);
+	__webpack_require__(1);
+	var button = __webpack_require__(5);
+	button.addEventListener('click', RollDice);
+
+	var left_dice = document.querySelector(".left_dice");
+	var right_dice = document.querySelector(".right_dice");
+
+	function RollDice() {
+
+	            for (var i = 0; i < 6; i++) {
+
+	                        setTimeout(function () {
+
+	                                    var r1 = Math.floor(Math.random() * 6) + 1;
+
+	                                    var r2 = Math.floor(Math.random() * 6) + 1;
+
+	                                    console.log(r1 + r2);
+
+	                                    left_dice.innerHTML = r1;
+
+	                                    right_dice.innerHTML = r2;
+	                        }, 400 * i);
+	            }
+	}
 
 /***/ },
 /* 1 */
-/***/ function(module, exports) {
-
-	"use strict";
-
-	var cat1 = "xinlai";
-	var cat2 = "he";
-
-
-	module.exports = cat1;
-
-/***/ },
-/* 2 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(3);
+	var content = __webpack_require__(2);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(5)(content, {});
+	var update = __webpack_require__(4)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -90,21 +103,21 @@
 	}
 
 /***/ },
-/* 3 */
+/* 2 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(4)();
+	exports = module.exports = __webpack_require__(3)();
 	// imports
 
 
 	// module
-	exports.push([module.id, "body {\r\n    background: yellow;\r\n}", ""]);
+	exports.push([module.id, ".container{\r\n\r\n    width:380px;\r\n    height:200px;\r\n    margin:0 auto;\r\n    margin-top:200px;\r\n\r\n}\r\n\r\n.container .left_dice {\r\n    width:50%;\r\n    height:100%;\r\n    float:left;\r\n    background-color:yellow;\r\n    border-radius:8px;\r\n    font-size:180px;\r\n    text-align: center;\r\n}\r\n\r\n.container .right_dice {\r\n    width:50%;\r\n    height:100%;\r\n    float:right;\r\n    background-color:red;\r\n    border-radius:8px;\r\n    font-size:180px;\r\n    text-align: center;\r\n\r\n}\r\n.button{\r\n  margin:0 auto;\r\n  width:380px;\r\n  height:60px;\r\n  overflow:hidden;\r\n  border-radius: 8px;\r\n  border:0px;\r\n}\r\n.button button{\r\n  width:100%;\r\n  height:100%;\r\n  background-color:rgba(100,100,100,0.8);\r\n  color: white;\r\n  font-size: 20pt;\r\n}", ""]);
 
 	// exports
 
 
 /***/ },
-/* 4 */
+/* 3 */
 /***/ function(module, exports) {
 
 	/*
@@ -160,7 +173,7 @@
 
 
 /***/ },
-/* 5 */
+/* 4 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -410,6 +423,16 @@
 			URL.revokeObjectURL(oldSrc);
 	}
 
+
+/***/ },
+/* 5 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	var start_button = document.querySelector("button");
+
+	module.exports = start_button;
 
 /***/ }
 /******/ ]);

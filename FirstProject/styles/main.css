@@ -1,3 +1,44 @@
-body {
-    background: yellow;
+.container{
+
+    width:380px;
+    height:200px;
+    margin:0 auto;
+    margin-top:200px;
+
+}
+
+.container .left_dice {
+    width:50%;
+    height:100%;
+    float:left;
+    background-color:yellow;
+    border-radius:8px;
+    font-size:180px;
+    text-align: center;
+}
+
+.container .right_dice {
+    width:50%;
+    height:100%;
+    float:right;
+    background-color:red;
+    border-radius:8px;
+    font-size:180px;
+    text-align: center;
+
+}
+.button{
+  margin:0 auto;
+  width:380px;
+  height:60px;
+  overflow:hidden;
+  border-radius: 8px;
+  border:0px;
+}
+.button button{
+  width:100%;
+  height:100%;
+  background-color:rgba(100,100,100,0.8);
+  color: white;
+  font-size: 20pt;
 }

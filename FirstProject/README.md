@@ -1,14 +1,14 @@
 #First Project
 
-##The first MP using [Webpack](http://webpack.github.io/docs/) + [Babel](https://babeljs.io/) + [ECMAScript 6](http://es6-features.org/) to build a small and simple webpage that play dices rolling game!
+##The first MP using [Webpack](http://webpack.github.io/docs/) + [Babel](https://babeljs.io/) + [ECMAScript 6](http://es6-features.org/) to build a small and simple webpage that plays dices rolling game!
 
 ##Dependencies
-  ###Local Dependencies
+###Local Dependencies
    - babel-cli `npm install --save-dev babel-cli`
    - babel-preset-es2015 `npm install babel-preset-es2015 --save-dev`
    - webpack `npm install webpack --save-dev` (better to have it locally as well)
 
-   ###Global Dependencies
+###Global Dependencies
    - webpack `npm install webpack -g` (in order to use webpack command)
 
 ##Configuration
