@@ -4,8 +4,8 @@
  * Created by Xinlai_He on 12/05/2016.
  */
 require("../styles/main.css");
-let button = require('./button.js');
-button.addEventListener('click',RollDice);
+import {start_button} from './button';
+start_button.addEventListener('click',RollDice);
 
 
 let [left_dice, right_dice] = [document.querySelector(".left_dice"), document.querySelector(".right_dice")];

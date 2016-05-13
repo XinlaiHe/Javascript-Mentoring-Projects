@@ -1,5 +1,6 @@
 "use strict";
 
-var start_button = document.querySelector("button");
-
-module.exports = start_button;
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var start_button = exports.start_button = document.querySelector("button");

@@ -4,9 +4,11 @@
  * Created by Xinlai_He on 12/05/2016.
  */
 
+var _button = require("./button");
+
 require("../styles/main.css");
-var button = require('./button.js');
-button.addEventListener('click', RollDice);
+
+_button.start_button.addEventListener('click', RollDice);
 
 var left_dice = document.querySelector(".left_dice");
 var right_dice = document.querySelector(".right_dice");
