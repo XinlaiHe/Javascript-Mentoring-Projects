@@ -7,8 +7,8 @@ require("../styles/main.css");
 let button = require('./button.js');
 button.addEventListener('click',RollDice);
 
-let left_dice= document.querySelector(".left_dice");
-let right_dice= document.querySelector(".right_dice");
+
+let [left_dice, right_dice] = [document.querySelector(".left_dice"), document.querySelector(".right_dice")];
 
 function RollDice(){
 

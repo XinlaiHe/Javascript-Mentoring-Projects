@@ -11,6 +11,7 @@ button.addEventListener('click', RollDice);
 var left_dice = document.querySelector(".left_dice");
 var right_dice = document.querySelector(".right_dice");
 
+
 function RollDice() {
 
             for (var i = 0; i < 6; i++) {
