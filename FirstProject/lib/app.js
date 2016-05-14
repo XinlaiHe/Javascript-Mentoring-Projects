@@ -16,19 +16,19 @@ var right_dice = document.querySelector(".right_dice");
 
 function RollDice() {
 
-            for (var i = 0; i < 6; i++) {
+  for (var i = 0; i < 6; i++) {
 
-                        setTimeout(function () {
+    setTimeout(function () {
 
-                                    var r1 = Math.floor(Math.random() * 6) + 1;
+      var r1 = Math.floor(Math.random() * 6) + 1;
 
-                                    var r2 = Math.floor(Math.random() * 6) + 1;
+      var r2 = Math.floor(Math.random() * 6) + 1;
 
-                                    console.log(r1 + r2);
+      console.log(r1 + r2);
 
-                                    left_dice.innerHTML = r1;
+      left_dice.innerHTML = r1;
 
-                                    right_dice.innerHTML = r2;
-                        }, 400 * i);
-            }
+      right_dice.innerHTML = r2;
+    }, 400 * i);
+  }
 }

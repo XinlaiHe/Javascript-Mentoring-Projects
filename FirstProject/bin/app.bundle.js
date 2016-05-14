@@ -62,21 +62,21 @@
 
 	function RollDice() {
 
-	            for (var i = 0; i < 6; i++) {
+	  for (var i = 0; i < 6; i++) {
 
-	                        setTimeout(function () {
+	    setTimeout(function () {
 
-	                                    var r1 = Math.floor(Math.random() * 6) + 1;
+	      var r1 = Math.floor(Math.random() * 6) + 1;
 
-	                                    var r2 = Math.floor(Math.random() * 6) + 1;
+	      var r2 = Math.floor(Math.random() * 6) + 1;
 
-	                                    console.log(r1 + r2);
+	      console.log(r1 + r2);
 
-	                                    left_dice.innerHTML = r1;
+	      left_dice.innerHTML = r1;
 
-	                                    right_dice.innerHTML = r2;
-	                        }, 400 * i);
-	            }
+	      right_dice.innerHTML = r2;
+	    }, 400 * i);
+	  }
 	}
 
 /***/ },
@@ -125,7 +125,7 @@
 
 
 	// module
-	exports.push([module.id, ".container{\r\n\r\n    width:380px;\r\n    height:200px;\r\n    margin:0 auto;\r\n    margin-top:200px;\r\n\r\n}\r\n\r\n.container .left_dice {\r\n    width:50%;\r\n    height:100%;\r\n    float:left;\r\n    background-color:yellow;\r\n    border-radius:8px;\r\n    font-size:180px;\r\n    text-align: center;\r\n}\r\n\r\n.container .right_dice {\r\n    width:50%;\r\n    height:100%;\r\n    float:right;\r\n    background-color:red;\r\n    border-radius:8px;\r\n    font-size:180px;\r\n    text-align: center;\r\n\r\n}\r\n.button{\r\n  margin:0 auto;\r\n  width:380px;\r\n  height:60px;\r\n  overflow:hidden;\r\n  border-radius: 8px;\r\n  border:0px;\r\n}\r\n.button button{\r\n  width:100%;\r\n  height:100%;\r\n  background-color:rgba(100,100,100,0.8);\r\n  color: white;\r\n  font-size: 20pt;\r\n}", ""]);
+	exports.push([module.id, ".container{\n\n    width:380px;\n    height:200px;\n    margin:0 auto;\n    margin-top:200px;\n\n}\n\n.container .left_dice {\n    width:50%;\n    height:100%;\n    float:left;\n    background-color:yellow;\n    border-radius:8px;\n    font-size:180px;\n    text-align: center;\n}\n\n.container .right_dice {\n    width:50%;\n    height:100%;\n    float:right;\n    background-color:red;\n    border-radius:8px;\n    font-size:180px;\n    text-align: center;\n\n}\n.button{\n  margin:0 auto;\n  width:380px;\n  height:60px;\n  overflow:hidden;\n  border-radius: 8px;\n  border:0px;\n}\n.button button{\n  width:100%;\n  height:100%;\n  background-color:rgba(100,100,100,0.8);\n  color: white;\n  font-size: 20pt;\n}", ""]);
 
 	// exports
 
