@@ -18,8 +18,8 @@
 
 ##Quick Start
  - run `npm install` to install all dependencies
- - run `npm run build` which will run two commends sequentially:
+ - run `npm run build` which will run two commands sequentially:
     1. run `babel src -d lib` which convert ECMAScript 2015 code(under `src` folder) to Environment Friendly Javascript code(under `lib` folder)
  	2. run `webpack` which will bundle all the css, js files and output a single bundle js file under `bin` folder
- - open `index.html` on broswer.
+ - run `npm start` and open browser.
 
