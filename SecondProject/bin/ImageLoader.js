@@ -25,27 +25,38 @@ var ImageLoader = function () {
 
       var _loop = function _loop(i) {
 
-        var promise = new Promise(function (resolve, reject) {
+        var progress_bar = document.createElement("div");
+        progress_bar.setAttribute("class", "myProgress");
 
-          var img = new Image();
-          img.src = _this._imageArr[i];
-          img.onload = function () {
-            resolve(i);
-          };
-          img.onerror = function () {
-            reject(i);
-          };
-        });
-        promise.then(function (msg) {
-          console.log(msg + 1 + "th image is loaded!");
-          _this._n++;
+        var percent = document.createElement("div");
+        percent.setAttribute("class", "myBar");
+
+        progress_bar.appendChild(percent);
+
+        document.body.appendChild(progress_bar);
+
+        var request = new XMLHttpRequest();
+
+        request.onprogress = function (e) {
+
+          _this.updateProgressBar(i, e);
+        };
+        request.onload = function (e) {
+
+          console.log(i + 1 + "th image is loaded!");
+          _this.n++;
           if (_this._n == _this._imageArr.length) {
+
             console.log("All images are loaded!");
           }
-          _this.updateProgressBar();
-        }).catch(function (msg) {
-          console.log(msg + 1 + "th image fails to load!");
-        });
+        };
+        request.onerror = function (e) {
+
+          console.log(i + 1 + "th image fails to load!");
+        };
+
+        request.open('GET', _this._imageArr[i], true);
+        request.send(null);
       };
 
       for (var i = 0; i < this._imageArr.length; i++) {
@@ -54,10 +65,10 @@ var ImageLoader = function () {
     }
   }, {
     key: "updateProgressBar",
-    value: function updateProgressBar() {
+    value: function updateProgressBar(n, e) {
 
-      var bar = document.getElementById("myBar");
-      var percent = this._n / this._imageArr.length;
+      var bar = document.querySelectorAll(".myBar")[n];
+      var percent = e.loaded / e.total;
       bar.style.width = percent * 100 + "%";
       bar.innerHTML = bar.style.width;
       bar.style.color = "white";

@@ -54,7 +54,7 @@
 
 	__webpack_require__(2);
 
-	var i = new _ImageLoader2.default(["http://animaliaz-life.com/data_images/dog/dog2.jpg", "http://cdn.abclocal.go.com/content/wls/images/cms/automation/images/535462_1280x720.jpg", "http://www.doglost.co.uk/images/australian-shepherd-dog.jpg", "https://pixabay.com/static/uploads/photo/2014/03/14/20/13/dog-287420_960_720.jpg", "http://static1.businessinsider.com/image/56c4fe4c2e526553008b7dc7/heres-what-popular-dog-breeds-looked-like-before-and-after-100-years-of-breeding.jpg", "https://www.petfinder.com/wp-content/uploads/2012/11/dog-happy-cost-of-dog106419226.jpg"]);
+	var i = new _ImageLoader2.default(["images/2.jpg", "images/2.jpg", "images/2.jpg", "images/2.jpg", "images/2.jpg", "images/2.jpg"]);
 
 	i.load();
 
@@ -89,27 +89,38 @@
 
 	      var _loop = function _loop(i) {
 
-	        var promise = new Promise(function (resolve, reject) {
+	        var progress_bar = document.createElement("div");
+	        progress_bar.setAttribute("class", "myProgress");
 
-	          var img = new Image();
-	          img.src = _this._imageArr[i];
-	          img.onload = function () {
-	            resolve(i);
-	          };
-	          img.onerror = function () {
-	            reject(i);
-	          };
-	        });
-	        promise.then(function (msg) {
-	          console.log(msg + 1 + "th image is loaded!");
-	          _this._n++;
+	        var percent = document.createElement("div");
+	        percent.setAttribute("class", "myBar");
+
+	        progress_bar.appendChild(percent);
+
+	        document.body.appendChild(progress_bar);
+
+	        var request = new XMLHttpRequest();
+
+	        request.onprogress = function (e) {
+
+	          _this.updateProgressBar(i, e);
+	        };
+	        request.onload = function (e) {
+
+	          console.log(i + 1 + "th image is loaded!");
+	          _this.n++;
 	          if (_this._n == _this._imageArr.length) {
+
 	            console.log("All images are loaded!");
 	          }
-	          _this.updateProgressBar();
-	        }).catch(function (msg) {
-	          console.log(msg + 1 + "th image fails to load!");
-	        });
+	        };
+	        request.onerror = function (e) {
+
+	          console.log(i + 1 + "th image fails to load!");
+	        };
+
+	        request.open('GET', _this._imageArr[i], true);
+	        request.send(null);
 	      };
 
 	      for (var i = 0; i < this._imageArr.length; i++) {
@@ -118,10 +129,10 @@
 	    }
 	  }, {
 	    key: "updateProgressBar",
-	    value: function updateProgressBar() {
+	    value: function updateProgressBar(n, e) {
 
-	      var bar = document.getElementById("myBar");
-	      var percent = this._n / this._imageArr.length;
+	      var bar = document.querySelectorAll(".myBar")[n];
+	      var percent = e.loaded / e.total;
 	      bar.style.width = percent * 100 + "%";
 	      bar.innerHTML = bar.style.width;
 	      bar.style.color = "white";
@@ -177,7 +188,7 @@
 
 
 	// module
-	exports.push([module.id, "#myProgress {\r\n  position: relative;\r\n  width: 100%;\r\n  height: 30px;\r\n  background-color: #ddd;\r\n}\r\n\r\n#myBar {\r\n  position: absolute;\r\n  width: 1%;\r\n  height: 100%;\r\n  background-color: grey;\r\n  text-align: right;\r\n  text-align: center;\r\n  font-size: 20pt;\r\n}", ""]);
+	exports.push([module.id, ".myProgress {\r\n  position: relative;\r\n  width: 100%;\r\n  height: 30px;\r\n  background-color: #ddd;\r\n  margin-top: 1%;\r\n}\r\n\r\n.myBar {\r\n  position: absolute;\r\n  width: 1%;\r\n  height: 100%;\r\n  background-color: grey;\r\n  text-align: right;\r\n  text-align: center;\r\n  font-size: 20pt;\r\n}", ""]);
 
 	// exports
 

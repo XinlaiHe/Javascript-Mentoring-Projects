@@ -11,33 +11,45 @@ export default class ImageLoader{
 
     for(let i = 0; i <　this._imageArr.length; i++){
 
-      let promise = new Promise( (resolve, reject) => {
+      let progress_bar = document.createElement("div");
+      progress_bar.setAttribute("class", "myProgress");
 
-          let img = new Image();
-          img.src = this._imageArr[i];
-          img.onload = () => {
-            resolve(i);
-          }
-          img.onerror = () => {
-            reject(i);
-          }
-      });
-      promise.then( (msg) => {
-         console.log((msg + 1) + "th image is loaded!");
-         this._n++;
-         if(this._n == this._imageArr.length){
+      let percent = document.createElement("div");
+      percent.setAttribute("class", "myBar");
+
+      progress_bar.appendChild(percent);
+
+      document.body.appendChild(progress_bar);
+
+      let request = new XMLHttpRequest();
+
+      request.onprogress = (e) => {
+
+        this.updateProgressBar(i, e);
+
+      };
+      request.onload = (e) => {
+
+        console.log((i + 1) + "th image is loaded!");
+        this.n++;
+        if(this._n == this._imageArr.length){
+
           console.log("All images are loaded!");
-         }
-         this.updateProgressBar();
-      }).catch( (msg) => {
-         console.log((msg + 1) + "th image fails to load!");
-      });
+        }
+      };
+      request.onerror = (e) => {
+
+        console.log((i + 1) + "th image fails to load!");
+      };
+
+      request.open('GET', this._imageArr[i], true);
+      request.send(null);
     }
   }
-  updateProgressBar() {
+  updateProgressBar(n, e) {
 
-    let bar = document.getElementById("myBar");
-    let percent = this._n / this._imageArr.length;
+    let bar = document.querySelectorAll(".myBar")[n];
+    let percent = e.loaded / e.total;
     bar.style.width = percent * 100  + "%";
     bar.innerHTML = bar.style.width;
     bar.style.color = "white";
