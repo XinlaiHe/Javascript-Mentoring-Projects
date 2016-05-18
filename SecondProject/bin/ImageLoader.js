@@ -25,24 +25,27 @@ var ImageLoader = function () {
 
       var _loop = function _loop(i) {
 
-        var img = new Image();
-        img.src = _this._imageArr[i];
-        img.onload = function () {
-          console.log(i + 1 + "th image is loaded!");
+        var promise = new Promise(function (resolve, reject) {
+
+          var img = new Image();
+          img.src = _this._imageArr[i];
+          img.onload = function () {
+            resolve(i);
+          };
+          img.onerror = function () {
+            reject(i);
+          };
+        });
+        promise.then(function (msg) {
+          console.log(msg + 1 + "th image is loaded!");
           _this._n++;
-          _this.updateProgressBar();
           if (_this._n == _this._imageArr.length) {
             console.log("All images are loaded!");
           }
-        };
-        img.onerror = function () {
-          console.log(i + 1 + "th image fails to load!");
-          _this._n++;
           _this.updateProgressBar();
-          if (_this._n == _this._imageArr.length) {
-            console.log("All images are loaded!");
-          }
-        };
+        }).catch(function (msg) {
+          console.log(msg + 1 + "th image fails to load!");
+        });
       };
 
       for (var i = 0; i < this._imageArr.length; i++) {
@@ -56,6 +59,8 @@ var ImageLoader = function () {
       var bar = document.getElementById("myBar");
       var percent = this._n / this._imageArr.length;
       bar.style.width = percent * 100 + "%";
+      bar.innerHTML = bar.style.width;
+      bar.style.color = "white";
       if (percent <= 0.33) {
         bar.style.backgroundColor = "red";
       } else if (percent > 0.33 && percent <= 0.66) {
