@@ -1,4 +1,4 @@
-export default class ImageLoader{
+class ImageLoader{
 
   constructor(imageArr){
     this._imageArr = imageArr;
