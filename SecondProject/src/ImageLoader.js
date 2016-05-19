@@ -1,6 +1,7 @@
 export default class ImageLoader{
 
   constructor(imageArr){
+
     this._imageArr = imageArr;
     this._n = 0;
   }
@@ -9,29 +10,9 @@ export default class ImageLoader{
 
     console.log("Begin to load " + this._imageArr.length + " images");
 
-    for(let i = 0; i <　this._imageArr.length; i++){
+    if(this._imageArr.length != 0){
 
-      let promise = new Promise( (resolve, reject) => {
-
-          let img = new Image();
-          img.src = this._imageArr[i];
-          img.onload = () => {
-            resolve(i);
-          }
-          img.onerror = () => {
-            reject(i);
-          }
-      });
-      promise.then( (msg) => {
-         console.log((msg + 1) + "th image is loaded!");
-         this._n++;
-         if(this._n == this._imageArr.length){
-          console.log("All images are loaded!");
-         }
-         this.updateProgressBar();
-      }).catch( (msg) => {
-         console.log((msg + 1) + "th image fails to load!");
-      });
+      this.loadImage(0);
     }
   }
   updateProgressBar() {
@@ -51,6 +32,36 @@ export default class ImageLoader{
     }
   }
 
+   loadImage(i) {
+
+        let p = new Promise( (resolve, reject) => {
+          let image = new Image();
+          image.src = this._imageArr[i];
+          image.onload = () => {
+            resolve();
+          };
+          image.onerror = () => {
+            reject();
+          };
+        });
+        if(this._n == this._imageArr.length - 1){
+          return p.then( () => {
+            this._n++;
+            this.updateProgressBar();
+            console.log((i + 1) + "th image is loaded and all images are loaded");
+          });
+
+        }else{
+            return p.then( () => {
+              this._n++;
+              this.updateProgressBar();
+              console.log((i + 1) + "th image is loaded!");
+              return this.loadImage(i + 1);
+            });
+        }
+    }
+
 }
 //1. promise
 //2. progress bar (mocks, spies)
+
