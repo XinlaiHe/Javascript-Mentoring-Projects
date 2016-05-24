@@ -1,4 +1,4 @@
-class ImageLoader{
+export default class ImageLoader{
 
   constructor(imageArr){
     this._imageArr = imageArr;
@@ -11,15 +11,7 @@ class ImageLoader{
 
     for(let i = 0; i <　this._imageArr.length; i++){
 
-      let progress_bar = document.createElement("div");
-      progress_bar.setAttribute("class", "myProgress");
-
-      let percent = document.createElement("div");
-      percent.setAttribute("class", "myBar");
-
-      progress_bar.appendChild(percent);
-
-      document.body.appendChild(progress_bar);
+      this.createProgressBar();
 
       let request = new XMLHttpRequest();
 
@@ -62,7 +54,18 @@ class ImageLoader{
       bar.style.backgroundColor = "green";
     }
   }
+  createProgressBar() {
 
+      let progress_bar = document.createElement("div");
+      progress_bar.setAttribute("class", "myProgress");
+
+      let percent = document.createElement("div");
+      percent.setAttribute("class", "myBar");
+
+      progress_bar.appendChild(percent);
+
+      document.body.appendChild(progress_bar);
+  }
 }
 //1. promise
 //2. progress bar (mocks, spies)
