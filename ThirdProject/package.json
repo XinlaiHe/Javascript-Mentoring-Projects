@@ -9,6 +9,6 @@
   "author": "xinlai He",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.13.4"
+    "http": "0.0.0"
   }
 }
