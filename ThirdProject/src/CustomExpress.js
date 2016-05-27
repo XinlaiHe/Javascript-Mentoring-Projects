@@ -6,7 +6,7 @@ class CustomExpress{
   constructor(){
 
     this.server = http.createServer();
-    this.routes = {};
+    this.routes = {get:{}, post:{}, put: {}, delete: {}};
   }
 
   use(middleware){
@@ -15,30 +15,63 @@ class CustomExpress{
 
   get(url, handler){
 
-
-    this.routes[url] = handler;
-
+    this.routes.get[url] = handler;
 
   }
 
   post(url, handler){
 
+    this.routes.post[url] = handler;
   }
 
   put(url, handler){
 
+    this.routes.put[url] = handler;
   }
 
   delete(url, handler){
 
+    this.routes.delete[url] = handler;
   }
 
-  findCallback(requestUrl){
+  listen(port, callback) {
 
-    if(this.routes[requestUrl]){
-      return [requestUrl, this.routes[requestUrl]];
+    this.server.listen(port);
+    callback();
+
+
+    this.server.on('request', (request, response) => {
+
+      this.handleRequest(request, response);
+
+    });
+  }
+
+  handleRequest(request, response){
+
+    let callback = this.findCallback(request.method.toLowerCase(), request.url);
+
+      if(callback){
+
+        response.send = (str)=> {
+          response.write(str);
+          response.end();
+        }
+        request.params = this.findParams(request.method.toLowerCase(), callback[0], request.url);
+        callback[1](request, response);
+
+      }else{
+
+        this.badRequest(response);
+      }
+  }
+
+  findCallback(method, requestUrl){
+
+    if(this.routes[method][requestUrl]){
+      return [requestUrl, this.routes[method][requestUrl]];
     }else{
-      let keys = Object.keys(this.routes);
+      let keys = Object.keys(this.routes[method]);
       for(let i = 0; i < keys.length; i++){
         let key_arr = keys[i].split("/").splice(1);
         let req_arr = requestUrl.split("/").splice(1);
@@ -50,17 +83,20 @@ class CustomExpress{
             }
           }
           if(flag){
-            return [keys[i], this.routes[keys[i]]];
+            return [keys[i], this.routes[method][keys[i]]];
           }
         }
       }
     }
     return null;
   }
-  findParams(Url, requestUrl){
 
-    if(this.routes[requestUrl]){
+  findParams(method, Url, requestUrl){
+
+    if(this.routes[method][requestUrl]){
+
       return {};
+
     }else{
 
       let key_arr = Url.split("/").splice(1);
@@ -77,64 +113,12 @@ class CustomExpress{
     }
   }
 
-  listen(port, callback) {
-
-    this.server.listen(port);
-    callback();
-
-
-    this.server.on('request', (request, response) => {
-
-      let callback = this.findCallback(request.url);
-
-      if(callback){
-
-        response.send = (str)=> {
-          response.write(str);
-          response.end();
-        }
-        request.params = this.findParams(callback[0], request.url);
-        callback[1](request, response);
-
-      }else{
-
-        this.badRequest(response);
-      }
-
-    });
-  }
-
   badRequest(response){
 
     response.write("Page Not Found");
     response.end();
 
   }
-
-  // checkMatch(requestUrl, Url){
-
-  //   let r = requestUrl.split('/').splice(1);
-  //   let u = Url.split('/').splice(1);
-
-  //   if(r.length == u.length){
-
-  //     for(let i = 0; i < r.length; i++){
-
-  //       if(!u[i].includes(':') && r[i] != u[i]){
-
-  //         return false;
-  //       }
-
-  //     }
-
-  //     return true;
-
-  //   }else{
-
-  //     return false;
-  //   }
-
-  // }
 }
 
 module.exports = CustomExpress;
