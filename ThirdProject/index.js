@@ -3,10 +3,6 @@ const Express = require('./src/CustomExpress.js');
 
 let express = new Express();
 
-express.listen(8080, function(){
-
-  console.log("Server starts at " + 8080);
-});
 
 express.get('/', function(req, res){
 
@@ -32,3 +28,8 @@ express.get('/users/:id', function(req, res){
 
     res.send("hi, users id : " + req.params.id);
 })
+
+express.listen(8080, function(){
+
+  console.log("Server starts at " + 8080);
+});
