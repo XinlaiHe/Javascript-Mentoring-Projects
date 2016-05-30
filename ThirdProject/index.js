@@ -29,6 +29,12 @@ express.get('/users/:id', function(req, res){
     res.send("hi, users id : " + req.params.id);
 })
 
+express.post('/users', function(req, res){
+
+
+    res.send("request body : " + JSON.stringify(req.body));
+})
+
 express.listen(8080, function(){
 
   console.log("Server starts at " + 8080);

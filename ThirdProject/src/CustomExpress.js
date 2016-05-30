@@ -7,6 +7,7 @@ class CustomExpress{
 
     this.server = http.createServer();
     this.routes = {get:{}, post:{}, put: {}, delete: {}};
+
   }
 
   use(middleware){
@@ -42,7 +43,29 @@ class CustomExpress{
 
     this.server.on('request', (request, response) => {
 
-      this.handleRequest(request, response);
+      let requestBody = [];
+
+      request.on('data', (chunk) => {
+
+        requestBody.push(chunk);
+
+      }).on('end', () => {
+
+        requestBody = Buffer.concat(requestBody).toString();
+
+        response.on('error', (err) => {
+            console.error(err);
+        });
+        // at this point, `body` has the entire request body stored in it as a string
+        if(request.method == 'PUT' || request.method == 'POST'){
+
+           request.body = this.getJsonObject(requestBody);
+
+        }
+        //response.setHeader('Content-Type', 'application/json');
+        this.handleRequest(request, response);
+
+      });
 
     });
   }
@@ -57,7 +80,9 @@ class CustomExpress{
           response.write(str);
           response.end();
         }
+
         request.params = this.findParams(request.method.toLowerCase(), callback[0], request.url);
+
         callback[1](request, response);
 
       }else{
@@ -117,6 +142,14 @@ class CustomExpress{
 
     response.write("Page Not Found");
     response.end();
+
+  }
+
+  getJsonObject(str){
+
+    let newstr = str.replace(/=/g, "\" : \"").replace(/&/g, "\" , \"");
+    newstr = "{ \"" + newstr + "\" }";
+    return JSON.parse(newstr);
 
   }
 }
