@@ -3,10 +3,22 @@ const Express = require('./src/CustomExpress.js');
 
 let express = new Express();
 
+express.use(function(req, res, next){
+
+  console.log("the first middleaware");
+  next();
+})
+
+express.use(function(req, res, next){
+
+  console.log("the second middleware");
+  next();
+})
 
 express.get('/', function(req, res){
 
   res.send("Home page");
+
 })
 
 express.get('/lists', function(req, res){

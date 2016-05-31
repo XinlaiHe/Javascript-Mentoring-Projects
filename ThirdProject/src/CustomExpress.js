@@ -7,32 +7,36 @@ class CustomExpress{
 
     this.server = http.createServer();
     this.routes = {get:{}, post:{}, put: {}, delete: {}};
+    this.middlewares = []; //global middlewares
+    this.middlewarePosition;//middleware pointer
 
   }
 
   use(middleware){
 
+    this.middlewares.push(middleware); //register global middlewares
+
   }
 
   get(url, handler){
 
-    this.routes.get[url] = handler;
+    this.routes.get[url] = handler;//register get request
 
   }
 
   post(url, handler){
 
-    this.routes.post[url] = handler;
+    this.routes.post[url] = handler;//register post request
   }
 
   put(url, handler){
 
-    this.routes.put[url] = handler;
+    this.routes.put[url] = handler;//register put request
   }
 
   delete(url, handler){
 
-    this.routes.delete[url] = handler;
+    this.routes.delete[url] = handler;//register delete request
   }
 
   listen(port, callback) {
@@ -41,50 +45,64 @@ class CustomExpress{
     callback();
 
 
-    this.server.on('request', (request, response) => {
+    this.server.on('request', (request, response) => { //every request will invoke this method
 
-      let requestBody = [];
+      this.middlewarePosition = 0; //at the very beginning of every request, set the pointer to 0
 
-      request.on('data', (chunk) => {
+      for(let i = 0; i < this.middlewares.length; i++){ //go through all the global middlewares
 
-        requestBody.push(chunk);
+        if(this.middlewarePosition == i){ //only if the pointer points to the next middleware, the next middleware will be invoked
 
-      }).on('end', () => {
-
-        requestBody = Buffer.concat(requestBody).toString();
-
-        response.on('error', (err) => {
-            console.error(err);
-        });
-        // at this point, `body` has the entire request body stored in it as a string
-        if(request.method == 'PUT' || request.method == 'POST'){
-
-           request.body = this.getJsonObject(requestBody);
-
+          this.middlewares[i](request, response, this.next.bind(this)); // call the next() function to increment the pointer
         }
-        //response.setHeader('Content-Type', 'application/json');
-        this.handleRequest(request, response);
+      }
 
-      });
+      if(this.middlewarePosition == this.middlewares.length){ // only when all the global middlewares are done, the real request will start
+          //to set the request body
+          let requestBody = [];
 
+          request.on('data', (chunk) => {
+
+            requestBody.push(chunk);
+
+          }).on('end', () => {
+
+            requestBody = Buffer.concat(requestBody).toString();
+
+            response.on('error', (err) => {
+                console.error(err);
+            });
+            // at this point, `body` has the entire request body stored in it as a string
+            if(request.method == 'PUT' || request.method == 'POST'){
+
+               request.body = this.getJsonObject(requestBody);
+
+            }
+            //response.setHeader('Content-Type', 'application/json');
+            //handle the request, including setting the params, finding the callbacks
+            this.handleRequest(request, response);
+
+          });
+      }
     });
+
   }
 
   handleRequest(request, response){
 
     let callback = this.findCallback(request.method.toLowerCase(), request.url);
-
+      //only when there is a callback, meaning the url is registered, the following will be executed
       if(callback){
-
+        //set the send method
         response.send = (str)=> {
           response.write(str);
           response.end();
         }
-
+        //set the params
         request.params = this.findParams(request.method.toLowerCase(), callback[0], request.url);
-
+        //execute the right callback
         callback[1](request, response);
-
+      //if the url is not registered the badrequset method will be called
       }else{
 
         this.badRequest(response);
@@ -144,13 +162,18 @@ class CustomExpress{
     response.end();
 
   }
-
+  //refactory the request body string to a Json object
   getJsonObject(str){
 
     let newstr = str.replace(/=/g, "\" : \"").replace(/&/g, "\" , \"");
     newstr = "{ \"" + newstr + "\" }";
     return JSON.parse(newstr);
 
+  }
+
+  next(){
+
+    this.middlewarePosition++;
   }
 }
 
