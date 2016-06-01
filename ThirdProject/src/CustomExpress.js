@@ -9,6 +9,7 @@ class CustomExpress{
     this.routes = {get:{}, post:{}, put: {}, delete: {}};
     this.middlewares = []; //global middlewares
     this.middlewarePosition;//middleware pointer
+    this.waitForRequest();
 
   }
 
@@ -43,48 +44,6 @@ class CustomExpress{
 
     this.server.listen(port);
     callback();
-
-
-    this.server.on('request', (request, response) => { //every request will invoke this method
-
-      this.middlewarePosition = 0; //at the very beginning of every request, set the pointer to 0
-
-      for(let i = 0; i < this.middlewares.length; i++){ //go through all the global middlewares
-
-        if(this.middlewarePosition == i){ //only if the pointer points to the next middleware, the next middleware will be invoked
-
-          this.middlewares[i](request, response, this.next.bind(this)); // call the next() function to increment the pointer
-        }
-      }
-
-      if(this.middlewarePosition == this.middlewares.length){ // only when all the global middlewares are done, the real request will start
-          //to set the request body
-          let requestBody = [];
-
-          request.on('data', (chunk) => {
-
-            requestBody.push(chunk);
-
-          }).on('end', () => {
-
-            requestBody = Buffer.concat(requestBody).toString();
-
-            response.on('error', (err) => {
-                console.error(err);
-            });
-            // at this point, `body` has the entire request body stored in it as a string
-            if(request.method == 'PUT' || request.method == 'POST'){
-
-               request.body = this.getJsonObject(requestBody);
-
-            }
-            //response.setHeader('Content-Type', 'application/json');
-            //handle the request, including setting the params, finding the callbacks
-            this.handleRequest(request, response);
-
-          });
-      }
-    });
 
   }
 
@@ -175,6 +134,51 @@ class CustomExpress{
 
     this.middlewarePosition++;
   }
+
+  waitForRequest(){
+
+    this.server.on('request', (request, response) => { //every request will invoke this method
+
+      this.middlewarePosition = 0; //at the very beginning of every request, set the pointer to 0
+
+      for(let i = 0; i < this.middlewares.length; i++){ //go through all the global middlewares
+
+        if(this.middlewarePosition == i){ //only if the pointer points to the next middleware, the next middleware will be invoked
+
+          this.middlewares[i](request, response, this.next.bind(this)); // call the next() function to increment the pointer
+        }
+      }
+
+      if(this.middlewarePosition == this.middlewares.length){ // only when all the global middlewares are done, the real request will start
+          //to set the request body
+          let requestBody = [];
+
+          request.on('data', (chunk) => {
+
+            requestBody.push(chunk);
+
+          }).on('end', () => {
+
+            requestBody = Buffer.concat(requestBody).toString();
+
+            response.on('error', (err) => {
+                console.error(err);
+            });
+            // at this point, `body` has the entire request body stored in it as a string
+            if(request.method == 'PUT' || request.method == 'POST'){
+
+               request.body = this.getJsonObject(requestBody);
+
+            }
+            //response.setHeader('Content-Type', 'application/json');
+            //handle the request, including setting the params, finding the callbacks
+            this.handleRequest(request, response);
+
+          });
+      }
+    });
+  }
+
 }
 
 module.exports = CustomExpress;
