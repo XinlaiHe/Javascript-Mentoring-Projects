@@ -1,6 +1,8 @@
 var myReport = {
-
+  startTime : undefined,
+  endTime : undefined,
   jasmineStarted: function(suiteInfo) {
+    startTime = Date.now();
     console.log('Running suite with ' + suiteInfo.totalSpecsDefined);
   },
 
@@ -32,7 +34,8 @@ var myReport = {
   },
 
   jasmineDone: function() {
-    console.log('Finished suite');
+    endTime = Date.now();
+    console.log('Finished suite, it consumes ' + (endTime - startTime)/1000 + " s");
   }
 };
 
