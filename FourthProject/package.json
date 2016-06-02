@@ -10,6 +10,7 @@
   "author": "Xinlai He",
   "license": "ISC",
   "dependencies": {
-    "jasmine": "^2.4.1"
+    "jasmine": "^2.4.1",
+    "nodemailer": "^2.4.2"
   }
 }

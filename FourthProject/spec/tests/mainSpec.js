@@ -1,13 +1,13 @@
 //TDD test driven development
 //BDD behaviour driven development
 
-describe("A suite", function() {
+describe("Test", function() {
 
-  it("contains spec with an expectation", function() {
+  it("Contains spec with an expectation", function() {
     expect(true).toBe(true);
   });
 
-  it("use spy", function(){
+  it("Use spy", function(){
 
     var fake = {
       test : function(){
@@ -21,7 +21,7 @@ describe("A suite", function() {
 
   });
 
-  it("async function", function(done){
+  it("Async function", function(done){
     var word = "success"
     var promise = new Promise(function(resolve, reject){
 
