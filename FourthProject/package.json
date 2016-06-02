@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jasmine",
+    "test": "node jasmineRunner.js",
     "init": "jasmine init"
   },
   "author": "Xinlai He",
