@@ -1,4 +1,3 @@
-var mailer = require("../helpers/mailer.js");
 
 var myReport = {
   startTime : undefined,
@@ -41,9 +40,6 @@ var myReport = {
     this.content += 'Finished suite, it consumes ' + (this.endTime - this.startTime)/1000 + " s" + "\n";
     console.log(this.content);
 
-    //send email
-    mailer.setUp('xinlai.he.13@ucl.ac.uk', 'xinlai_he@epam.com', 'Test Report', this.content);
-    mailer.sendMail();
   }
 };
 
