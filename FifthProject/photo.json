@@ -1,0 +1,27 @@
+[
+    {
+        "_id": 1,
+        "name": "cat",
+        "author": "someone"
+    },
+    {
+        "_id": 2,
+        "name": "dog",
+        "author": "someone"
+    },
+    {
+        "_id": 3,
+        "name": "giraff",
+        "author": "someone"
+    },
+    {
+        "_id": 4,
+        "name": "fish",
+        "author": "someone"
+    },
+    {
+        "id": 1466071038632,
+        "author": "someone",
+        "name": "frog"
+    }
+]

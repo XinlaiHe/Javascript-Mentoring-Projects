@@ -1,0 +1,14 @@
+<ul class="nav nav-tabs">
+  <li class="nav-item" ng-hide='auth'>
+    <a class="nav-link" href="/#/login">Login</a>
+  </li>
+  <li class="nav-item" ng-hide='auth'>
+    <a class="nav-link" href="/#/register">Register</a>
+  </li>
+  <li class="nav-item" ng-show='auth'>
+    <a class="nav-link" href="/">Home, Welcome {{auth.username}}</a>
+  </li>
+  <li class="nav-item" ng-show='auth'>
+    <a class="nav-link" ng-click='logout()'>Logout</a>
+  </li>
+</ul>

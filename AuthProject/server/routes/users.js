@@ -37,14 +37,14 @@ passport.deserializeUser(function(id, done) {
 router.post('/register', function(req, res, next) {
   var user = new User(req.body);
   user.save(function(err){
-    if(err) res.json(err);
-    else res.json(user);
+    if(err) console.log(err);
+    else res.jsonp(user);
   });
 });
 
 router.post('/login',
             passport.authenticate('local'), function(req, res) {
-              res.json(req.user);
+              res.jsonp(req.user);
             }
 );
 
