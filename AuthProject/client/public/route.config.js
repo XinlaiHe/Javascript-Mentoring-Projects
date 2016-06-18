@@ -18,7 +18,7 @@ angular.
           templateUrl: './public/views/register.html',
           controller: "RegisterController"
         })
-        .otherwise('/error');
+        .otherwise({redirectTo : "/"});
     }
   ]);
 
