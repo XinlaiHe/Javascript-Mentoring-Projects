@@ -2,7 +2,7 @@
 
   'use strict';
   angular.module("App").factory("UserService", function(){
-        console.log('init');
+        
         var _user = undefined;
 
         var service = {

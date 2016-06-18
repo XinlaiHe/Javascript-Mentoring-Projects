@@ -5,9 +5,9 @@
   .module('App')
   .controller('LoginController', LoginController);
 
-  LoginController.$inject = ['$scope', '$http','$window', 'UserService', '$location'];
+  LoginController.$inject = ['$scope', '$http', '$cookieStore', '$location'];
 
-  function LoginController($scope, $http, $window, UserService, $location) {
+  function LoginController($scope, $http, $cookieStore, $location) {
 
 
     $scope.username = '';
@@ -22,12 +22,10 @@
           data: { username : $scope.username, password : $scope.password }
         }).then(function successCallback(response) {
 
-          UserService.setUser(response.data);
-          // $window.location.href = '/';
+          $cookieStore.put("user", response.data);
           $location.path('/', false);
 
         }, function errorCallback(response) {
-
 
           console.log("login failed");
 

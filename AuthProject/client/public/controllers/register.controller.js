@@ -5,25 +5,25 @@
   .module('App')
   .controller('RegisterController', RegisterController);
 
-  RegisterController.$inject = ['$scope', '$http','$window'];
+  RegisterController.$inject = ['$scope', '$http', '$location', '$cookieStore'];
 
-  function RegisterController($scope, $http, $window) {
+  function RegisterController($scope, $http, $location, $cookieStore) {
 
 
     $scope.username = '';
     $scope.password = '';
-    $scope.login = login;
+    $scope.register = register;
 
-    function login(){
+    function register(){
 
       $http({
           method: 'POST',
-          url: 'localhost:8000/users/login',
+          url: 'http://localhost:8000/users/register',
           data: { username : $scope.username, password : $scope.password }
         }).then(function successCallback(response) {
 
-          $window.user = response;
-          $window.location.href =  '/';
+          $cookieStore.put("user", response.data);
+          $location.path('/', false);
 
         }, function errorCallback(response) {
 

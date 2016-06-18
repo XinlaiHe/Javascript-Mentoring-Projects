@@ -1,4 +1,4 @@
-angular.module('App', ['ngRoute']);
+angular.module('App', ['ngRoute', 'ngCookies']);
 
 angular.
   module('App').

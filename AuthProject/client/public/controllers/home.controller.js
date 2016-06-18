@@ -5,19 +5,19 @@
   .module('App')
   .controller('HomeController', HomeController);
 
-  HomeController.$inject = ['$scope', '$http','$window', 'UserService'];
+  HomeController.$inject = ['$scope', '$http', '$cookieStore'];
 
-  function HomeController($scope, $http, $window, UserService) {
+  function HomeController($scope, $http, $cookieStore) {
 
-    if(UserService.getUser()){
-      $scope.auth = UserService.getUser();
+    if($cookieStore.get("user")){
+      $scope.auth = $cookieStore.get("user");
     }else{
       $scope.auth = false;
     }
 
     $scope.logout = function(){
-      UserService.clear();
-      $scope.auth = UserService.getUser();
+      $cookieStore.remove("user");
+      $scope.auth = $cookieStore.get("user");
     }
   }
 
