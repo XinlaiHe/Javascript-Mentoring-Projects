@@ -9,7 +9,7 @@
 
   function LoginController($scope, $http, $cookieStore, $location) {
 
-
+    
     $scope.username = '';
     $scope.password = '';
     $scope.login = login;
@@ -27,7 +27,10 @@
 
         }, function errorCallback(response) {
 
-          console.log("login failed");
+          if(response.data == 'Unauthorized'){
+
+            $scope.error = "Invalid username and password combination";
+          }
 
         });
 

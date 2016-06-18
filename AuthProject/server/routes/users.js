@@ -37,7 +37,7 @@ passport.deserializeUser(function(id, done) {
 router.post('/register', function(req, res, next) {
   var user = new User(req.body);
   user.save(function(err){
-    if(err) console.log(err);
+    if(err) res.jsonp(err);
     else res.jsonp(user);
   });
 });

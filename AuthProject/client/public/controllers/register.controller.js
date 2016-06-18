@@ -21,14 +21,21 @@
           url: 'http://localhost:8000/users/register',
           data: { username : $scope.username, password : $scope.password }
         }).then(function successCallback(response) {
+          
+          if(response.data.code && response.data.code == 11000){
 
-          $cookieStore.put("user", response.data);
-          $location.path('/', false);
+            $scope.error = "Username already exists";
+
+          }else{
+
+            $cookieStore.put("user", response.data);
+            $location.path('/', false);
+          }
 
         }, function errorCallback(response) {
 
 
-          console.log("login failed");
+          console.log("register failed");
 
         });
 
