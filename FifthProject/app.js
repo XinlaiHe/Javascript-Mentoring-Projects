@@ -3,8 +3,19 @@ var fs = require("fs");
 var bodyParser = require("body-parser");
 var app = express();
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json({limit: '2mb'}));
+app.use(bodyParser.urlencoded({extended: true, limit: '2mb'}));
+
+// Additional middleware which will set headers that we need on each request.
+app.use(function(req, res, next) {
+    // Set permissive CORS header - this allows this server to be used only as
+    // an API server in conjunction with something like webpack-dev-server.
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+    // Disable caching so we'll always get the latest comments.
+    res.setHeader('Cache-Control', 'no-cache');
+    next();
+});
 
 app.get("/api/photo", function(req, res){
 
@@ -29,6 +40,7 @@ app.post("/api/photo", function(req, res){
       id: Date.now(),
       author: req.body.author,
       name: req.body.name,
+      img: req.body.img
     };
     pho.push(newPho);
     fs.writeFile("photo.json", JSON.stringify(pho, null, 4), function(err) {

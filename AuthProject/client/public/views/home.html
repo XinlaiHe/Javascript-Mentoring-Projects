@@ -12,3 +12,7 @@
     <a class="nav-link" ng-click='logout()'>Logout</a>
   </li>
 </ul>
+<div ng-show='auth' align='center'>
+    <label class="control-label">Select File</label>
+    <input type='file'/><button class='btn btn-success' ng-click='upload()'>Upload</button>
+</div>
