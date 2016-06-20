@@ -1,11 +1,13 @@
 var express = require("express");
 var fs = require("fs");
+var path = require('path');
 var bodyParser = require("body-parser");
 var app = express();
 
 app.use(bodyParser.json({limit: '2mb'}));
 app.use(bodyParser.urlencoded({extended: true, limit: '2mb'}));
 
+app.use('/', express.static(path.join(__dirname, '/')));
 // Additional middleware which will set headers that we need on each request.
 app.use(function(req, res, next) {
     // Set permissive CORS header - this allows this server to be used only as
@@ -55,17 +57,19 @@ app.post("/api/photo", function(req, res){
 
 app.get("/api/photo/:id", function(req, res){
   var id = req.params.id;
+
   fs.readFile("photo.json", 'utf8', function(err, result){
     var photo = JSON.parse(result);
     if(err) console.log(err);
     else{
       photo.forEach(function(el){
-        if(el._id == id){
+        if(el.id == id){
           res.json(el);
         }
       });
     }
   })
+
 });
 
 app.put("/api/photo/:id", function(req, res){
