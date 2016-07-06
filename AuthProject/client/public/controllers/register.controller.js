@@ -21,7 +21,7 @@
           url: 'http://localhost:8000/users/register',
           data: { username : $scope.username, password : $scope.password }
         }).then(function successCallback(response) {
-          
+
           if(response.data.code && response.data.code == 11000){
 
             $scope.error = "Username already exists";
